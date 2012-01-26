@@ -16,8 +16,11 @@
 //
 #endregion
 
+using System;
+
 using FluentMigrator.Builders.Delete.Column;
 using FluentMigrator.Builders.Delete.DefaultConstraint;
+using FluentMigrator.Builders.Delete.Federation;
 using FluentMigrator.Builders.Delete.ForeignKey;
 using FluentMigrator.Builders.Delete.Index;
 using FluentMigrator.Builders.Delete.Sequence;
@@ -122,6 +125,19 @@ namespace FluentMigrator.Builders.Delete
             var expression = new DeleteDefaultConstraintExpression();
             _context.Expressions.Add(expression);
             return new DeleteDefaultConstraintExpressionBuilder(expression);
+        }
+
+        public IDeleteFederationSyntax Federation ()
+        {
+            return Federation (null);
+        }
+
+        public IDeleteFederationSyntax Federation (string name)
+        {
+            var expression = new DeleteFederationExpression();
+            expression.Name = name;
+            _context.Expressions.Add(expression);
+            return new DeleteFederationExpressionBuilder(expression);
         }
     }
 }

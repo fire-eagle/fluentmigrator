@@ -24,7 +24,7 @@ using FluentMigrator.Builders.Execute;
 
 namespace FluentMigrator.Runner.Processors.SqlServer
 {
-    public sealed class SqlServerProcessor : ProcessorBase
+    public class SqlServerProcessor : ProcessorBase
     {
         private readonly IDbFactory factory;
         public IDbConnection Connection { get; private set; }

@@ -63,5 +63,8 @@ namespace FluentMigrator
         void Process(CreateConstraintExpression expression);
         void Process(DeleteConstraintExpression expression);
         void Process(DeleteDefaultConstraintExpression expression);
+
+        void Process(CreateFederationExpression expression);
+        void Process(DeleteFederationExpression expression);
     }
 }

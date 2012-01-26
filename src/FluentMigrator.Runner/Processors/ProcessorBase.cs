@@ -16,6 +16,8 @@
 //
 #endregion
 
+using System;
+
 using FluentMigrator.Builders.Execute;
 using FluentMigrator.Expressions;
 
@@ -153,6 +155,16 @@ namespace FluentMigrator.Runner.Processors
         }
 
         public void Process(DeleteDefaultConstraintExpression expression)
+        {
+            Process(Generator.Generate(expression));
+        }
+
+        public void Process(CreateFederationExpression expression)
+        {
+            Process(Generator.Generate(expression));
+        }
+
+        public void Process(DeleteFederationExpression expression)
         {
             Process(Generator.Generate(expression));
         }

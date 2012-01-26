@@ -27,7 +27,8 @@ namespace FluentMigrator.Builders.Create.Table
     public class CreateTableExpressionBuilder : ExpressionBuilderWithColumnTypesBase<CreateTableExpression, ICreateTableColumnOptionOrWithColumnSyntax>,
         ICreateTableWithColumnOrSchemaSyntax,
         ICreateTableColumnAsTypeSyntax,
-        ICreateTableColumnOptionOrWithColumnSyntax
+        ICreateTableColumnOptionOrWithColumnSyntax,
+        ICreateTableFederationSyntax
     {
         public ColumnDefinition CurrentColumn { get; set; }
         private readonly IMigrationContext _context;
@@ -257,6 +258,18 @@ namespace FluentMigrator.Builders.Create.Table
         protected override ColumnDefinition GetColumnForType()
         {
             return CurrentColumn;
+        }
+
+        public ICreateTableFederationSyntax FederatedOn(string distributionName)
+        {
+            Expression.FederationDistribution = distributionName;
+            return this;
+        }
+
+        public ICreateTableWithColumnSyntax Column (string columnName)
+        {
+            Expression.FederationColumn = columnName;
+            return this;
         }
     }
 }

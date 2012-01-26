@@ -16,8 +16,11 @@
 //
 #endregion
 
+using System;
+
 using FluentMigrator.Builders.Create.Column;
 using FluentMigrator.Builders.Create.Constraint;
+using FluentMigrator.Builders.Create.Federation;
 using FluentMigrator.Builders.Create.ForeignKey;
 using FluentMigrator.Builders.Create.Index;
 using FluentMigrator.Builders.Create.Sequence;
@@ -105,6 +108,19 @@ namespace FluentMigrator.Builders.Create
             expression.Constraint.ConstraintName = constraintName;
             _context.Expressions.Add(expression);
             return new CreateConstraintExpressionBuilder(expression);
+        }
+
+        public ICreateFederationSyntax Federation ()
+        {
+            return Federation (null);
+        }
+
+        public ICreateFederationSyntax Federation (string federationName)
+        {
+            var expression = new CreateFederationExpression();
+            expression.FederationDefinition.Name = federationName;
+            _context.Expressions.Add (expression);
+            return new CreateFederationExpressionBuilder (expression);
         }
 
         public Constraint.ICreateConstraintOnTableSyntax PrimaryKey()

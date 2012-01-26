@@ -16,6 +16,8 @@
 //
 #endregion
 
+using System;
+
 using FluentMigrator.Expressions;
 
 namespace FluentMigrator.Runner.Generators.Base
@@ -54,6 +56,9 @@ namespace FluentMigrator.Runner.Generators.Base
         public abstract string Generate(CreateConstraintExpression expression);
         public abstract string Generate(DeleteConstraintExpression expression);
         public abstract string Generate(DeleteDefaultConstraintExpression expression);
+        public abstract string Generate(CreateFederationExpression expression);
+        public abstract string Generate(DeleteFederationExpression expression);
+        
 
         public virtual bool IsAdditionalFeatureSupported(string feature)
         {

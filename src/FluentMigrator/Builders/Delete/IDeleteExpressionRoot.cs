@@ -18,6 +18,7 @@
 
 using FluentMigrator.Builders.Delete.Column;
 using FluentMigrator.Builders.Delete.DefaultConstraint;
+using FluentMigrator.Builders.Delete.Federation;
 using FluentMigrator.Builders.Delete.ForeignKey;
 using FluentMigrator.Infrastructure;
 using FluentMigrator.Builders.Delete.Index;
@@ -63,5 +64,8 @@ namespace FluentMigrator.Builders.Delete
         IDeleteConstraintOnTableSyntax UniqueConstraint(string constraintName);
 
         IDeleteDefaultConstraintOnTableSyntax DefaultConstraint();
+
+        IDeleteFederationSyntax Federation();
+        IDeleteFederationSyntax Federation(string name);
     }
 }

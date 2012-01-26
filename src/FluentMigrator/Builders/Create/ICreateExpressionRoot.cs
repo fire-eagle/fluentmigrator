@@ -18,6 +18,7 @@
 
 using FluentMigrator.Builders.Create.Column;
 using FluentMigrator.Builders.Create.Constraint;
+using FluentMigrator.Builders.Create.Federation;
 using FluentMigrator.Builders.Create.ForeignKey;
 using FluentMigrator.Builders.Create.Index;
 using FluentMigrator.Builders.Create.Sequence;
@@ -43,5 +44,8 @@ namespace FluentMigrator.Builders.Create
 
         ICreateConstraintOnTableSyntax UniqueConstraint();
         ICreateConstraintOnTableSyntax UniqueConstraint(string constraintName);
+
+        ICreateFederationSyntax Federation();
+        ICreateFederationSyntax Federation(string federationName);
     }
 }

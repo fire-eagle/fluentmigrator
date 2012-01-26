@@ -140,6 +140,8 @@
     <Compile Include="Builders\Create\Constraint\ICreateConstraintOnTableSyntax.cs" />
     <Compile Include="Builders\Create\Constraint\ICreateConstraintWithSchemaOrColumnSyntax.cs" />
     <Compile Include="Builders\Create\Constraint\ICreateConstraintWithSchemaSyntax.cs" />
+    <Compile Include="Builders\Create\Federation\CreateFederationExpressionBuilder.cs" />
+    <Compile Include="Builders\Create\Federation\ICreateFederationSyntax.cs" />
     <Compile Include="Builders\Create\ForeignKey\ICreateForeignKeyPrimaryColumnOrInSchemaSyntax.cs" />
     <Compile Include="Builders\Create\ForeignKey\ICreateForeignKeyForeignColumnOrInSchemaSyntax.cs" />
     <Compile Include="Builders\Create\ForeignKey\ICreateForeignKeyCascadeSyntax.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Builders\Create\Sequence\CreateSequenceExpressionBuilder.cs" />
     <Compile Include="Builders\Create\Sequence\ICreateSequenceInSchemaSyntax.cs" />
     <Compile Include="Builders\Create\Sequence\ICreateSequenceSyntax.cs" />
+    <Compile Include="Builders\Create\Table\ICreateTableFederationSyntax.cs" />
     <Compile Include="Builders\Create\Table\ICreateTableWithColumnOrSchemaSyntax.cs" />
     <Compile Include="Builders\Delete\Constraint\DeleteConstraintExpressionBuilder.cs" />
     <Compile Include="Builders\Delete\Constraint\IDeleteConstraintOnTableSyntax.cs" />
@@ -157,6 +160,8 @@
     <Compile Include="Builders\Delete\DefaultConstraint\IDeleteDefaultConstraintOnColumnSyntax.cs" />
     <Compile Include="Builders\Delete\DefaultConstraint\IDeleteDefaultConstraintOnTableSyntax.cs" />
     <Compile Include="Builders\Delete\DeleteDataExpressionBuilder.cs" />
+    <Compile Include="Builders\Delete\Federation\DeleteFederationExpressionBuilder.cs" />
+    <Compile Include="Builders\Delete\Federation\IDeleteFederationSyntax.cs" />
     <Compile Include="Builders\Delete\ForeignKey\IDeleteForeignKeyForeignColumnOrInSchemaSyntax.cs" />
     <Compile Include="Builders\Delete\ForeignKey\IDeleteForeignKeyOnTableSyntax.cs" />
     <Compile Include="Builders\Delete\IDeleteDataOrInSchemaSyntax.cs" />
@@ -193,10 +198,12 @@
     <Compile Include="Expressions\AlterTableExpression.cs" />
     <Compile Include="Expressions\AlterSchemaExpression.cs" />
     <Compile Include="Expressions\CreateConstraintExpression.cs" />
+    <Compile Include="Expressions\CreateFederationExpression.cs" />
     <Compile Include="Expressions\CreateSequenceExpression.cs" />
     <Compile Include="Expressions\DeleteConstraintExpression.cs" />
     <Compile Include="Expressions\DeleteDataExpression.cs" />
     <Compile Include="Expressions\DeleteDefaultConstraintExpression.cs" />
+    <Compile Include="Expressions\DeleteFederationExpression.cs" />
     <Compile Include="Expressions\DeleteSequenceExpression.cs" />
     <Compile Include="Expressions\ExecuteEmbeddedSqlScriptExpression.cs" />
     <Compile Include="Expressions\InsertDataExpression.cs" />
@@ -209,6 +216,7 @@
     <Compile Include="MigrationBase.cs" />
     <Compile Include="Model\ConstraintDefinition.cs" />
     <Compile Include="Model\DeletionDataDefinition.cs" />
+    <Compile Include="Model\FederationDefinition.cs" />
     <Compile Include="Model\InsertionDataDefinition.cs" />
     <Compile Include="Builders\Rename\Column\IRenameColumnToSyntax.cs" />
     <Compile Include="Builders\Rename\Column\RenameColumnExpressionBuilder.cs" />

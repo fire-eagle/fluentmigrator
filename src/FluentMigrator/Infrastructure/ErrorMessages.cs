@@ -42,5 +42,9 @@ namespace FluentMigrator.Infrastructure
         public const string OperationCannotBeNull = "The operation to be performed using the database connection cannot be null";
         public const string DestinationSchemaCannotBeNull = "The destination schema's name cannot be null or an empty string";
         public const string SequenceNameCannotBeNullOrEmpty = "The sequence's name cannot be null or an empty string";
+        public const string FederationNameCannotBeNullOrEmpty = "The federation's name cannot be null or an empty string";
+        public const string DistributionNameCannotBeNullOrEmpty = "The federation's distribution name cannot be null or an empty string";
+        public const string FederationPartitionCannotBeNullOrEmpty = "The federation's partition type cannot be null or empty";
+        public const string ImproperFederationDataType = "A federation datatype must be INT, BUGINT, UNIQUEIDENTIFIER or VARBINARY(n <= 900)";
     }
 }

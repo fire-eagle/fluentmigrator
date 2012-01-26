@@ -158,6 +158,7 @@
     <Compile Include="Generators\SQLite\SqliteColumn.cs" />
     <Compile Include="Generators\SQLite\SqliteQuoter.cs" />
     <Compile Include="Generators\SQLite\SqliteTypeMap.cs" />
+    <Compile Include="Generators\SqlServer\AzureGenerator.cs" />
     <Compile Include="Generators\SqlServer\SqlServer2000TypeMap.cs" />
     <Compile Include="Generators\SqlServer\SqlServer2005TypeMap.cs" />
     <Compile Include="Generators\SqlServer\SqlServer2008TypeMap.cs" />
@@ -207,6 +208,8 @@
     <Compile Include="Processors\DbFactoryBase.cs" />
     <Compile Include="Processors\ReflectionBasedDbFactory.cs" />
     <Compile Include="Processors\Sqlite\SqliteDbFactory.cs" />
+    <Compile Include="Processors\SqlServer\AzureProcessor.cs" />
+    <Compile Include="Processors\SqlServer\AzureProcessorFactory.cs" />
     <Compile Include="Processors\SqlServer\SqlServer2000Processor.cs" />
     <Compile Include="Processors\SqlServer\SqlServerCeDbFactory.cs" />
     <Compile Include="Processors\SqlServer\SqlServerDbFactory.cs" />
