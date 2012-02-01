@@ -24,252 +24,258 @@ using FluentMigrator.Model;
 
 namespace FluentMigrator.Builders.Create.Table
 {
-    public class CreateTableExpressionBuilder : ExpressionBuilderWithColumnTypesBase<CreateTableExpression, ICreateTableColumnOptionOrWithColumnSyntax>,
-        ICreateTableWithColumnOrSchemaSyntax,
-        ICreateTableColumnAsTypeSyntax,
-        ICreateTableColumnOptionOrWithColumnSyntax,
-        ICreateTableFederationSyntax
-    {
-        public ColumnDefinition CurrentColumn { get; set; }
-        private readonly IMigrationContext _context;
+   public class CreateTableExpressionBuilder : ExpressionBuilderWithColumnTypesBase<CreateTableExpression, ICreateTableColumnOptionOrWithColumnSyntax>,
+       ICreateTableWithColumnOrSchemaSyntax,
+       ICreateTableColumnAsTypeSyntax,
+       ICreateTableColumnOptionOrWithColumnSyntax,
+       ICreateTableFederationSyntax
+   {
+      public ColumnDefinition CurrentColumn { get; set; }
+      private readonly IMigrationContext _context;
 
-        public CreateTableExpressionBuilder(CreateTableExpression expression, IMigrationContext context)
-            : base(expression)
-        {
-            _context = context;
-        }
+      public CreateTableExpressionBuilder(CreateTableExpression expression, IMigrationContext context)
+         : base(expression)
+      {
+         _context = context;
+      }
 
-        public ICreateTableWithColumnSyntax InSchema(string schemaName)
-        {
-            Expression.SchemaName = schemaName;
-            return this;
-        }
+      public ICreateTableWithColumnSyntax InSchema(string schemaName)
+      {
+         Expression.SchemaName = schemaName;
+         return this;
+      }
 
-        public ICreateTableColumnAsTypeSyntax WithColumn(string name)
-        {
-            var column = new ColumnDefinition { Name = name, TableName = Expression.TableName, ModificationType = ColumnModificationType.Create };
-            Expression.Columns.Add(column);
-            CurrentColumn = column;
-            return this;
-        }
+      public ICreateTableColumnAsTypeSyntax WithColumn(string name)
+      {
+         var column = new ColumnDefinition { Name = name, TableName = Expression.TableName, ModificationType = ColumnModificationType.Create };
+         Expression.Columns.Add(column);
+         CurrentColumn = column;
+         return this;
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax WithDefault(SystemMethods method)
-        {
-            CurrentColumn.DefaultValue = method;
-            return this;
-        }
+      public ICreateTableColumnOptionOrWithColumnSyntax WithDefault(SystemMethods method)
+      {
+         CurrentColumn.DefaultValue = method;
+         return this;
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax WithDefaultValue(object value)
-        {
-            CurrentColumn.DefaultValue = value;
-            return this;
-        }
+      public ICreateTableColumnOptionOrWithColumnSyntax WithDefaultValue(object value)
+      {
+         CurrentColumn.DefaultValue = value;
+         return this;
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax Identity()
-        {
-            CurrentColumn.IsIdentity = true;
-            return this;
-        }
+      public ICreateTableColumnOptionOrWithColumnSyntax Identity()
+      {
+         CurrentColumn.IsIdentity = true;
+         return this;
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax Indexed()
-        {
-            return Indexed(null);
-        }
+      public ICreateTableColumnOptionOrWithColumnSyntax Indexed()
+      {
+         return Indexed(null);
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax Indexed(string indexName)
-        {
-            CurrentColumn.IsIndexed = true;
+      public ICreateTableColumnOptionOrWithColumnSyntax Indexed(string indexName)
+      {
+         CurrentColumn.IsIndexed = true;
 
-            var index = new CreateIndexExpression
+         var index = new CreateIndexExpression
+         {
+            Index = new IndexDefinition
             {
-                Index = new IndexDefinition
-                {
-                    Name = indexName,
-                    SchemaName = Expression.SchemaName,
-                    TableName = Expression.TableName
-                }
-            };
+               Name = indexName,
+               SchemaName = Expression.SchemaName,
+               TableName = Expression.TableName
+            }
+         };
 
-            index.Index.Columns.Add(new IndexColumnDefinition
+         index.Index.Columns.Add(new IndexColumnDefinition
+         {
+            Name = CurrentColumn.Name
+         });
+
+         _context.Expressions.Add(index);
+
+         return this;
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax PrimaryKey()
+      {
+         CurrentColumn.IsPrimaryKey = true;
+         return this;
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax PrimaryKey(string primaryKeyName)
+      {
+         CurrentColumn.IsPrimaryKey = true;
+         CurrentColumn.PrimaryKeyName = primaryKeyName;
+         return this;
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax Nullable()
+      {
+         CurrentColumn.IsNullable = true;
+         return this;
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax NotNullable()
+      {
+         CurrentColumn.IsNullable = false;
+         return this;
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax Unique()
+      {
+         return Unique(null);
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax Unique(string indexName)
+      {
+         CurrentColumn.IsUnique = true;
+
+         var index = new CreateIndexExpression
+         {
+            Index = new IndexDefinition
             {
-                Name = CurrentColumn.Name
-            });
+               Name = indexName,
+               SchemaName = Expression.SchemaName,
+               TableName = Expression.TableName,
+               IsUnique = true
+            }
+         };
 
-            _context.Expressions.Add(index);
+         index.Index.Columns.Add(new IndexColumnDefinition
+         {
+            Name = CurrentColumn.Name
+         });
 
-            return this;
-        }
+         _context.Expressions.Add(index);
 
-        public ICreateTableColumnOptionOrWithColumnSyntax PrimaryKey()
-        {
-            CurrentColumn.IsPrimaryKey = true;
-            return this;
-        }
+         return this;
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax PrimaryKey(string primaryKeyName)
-        {
-            CurrentColumn.IsPrimaryKey = true;
-            CurrentColumn.PrimaryKeyName = primaryKeyName;
-            return this;
-        }
+      public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey(string primaryTableName, string primaryColumnName)
+      {
+         return ForeignKey(null, null, primaryTableName, primaryColumnName);
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax Nullable()
-        {
-            CurrentColumn.IsNullable = true;
-            return this;
-        }
+      public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey(string foreignKeyName, string primaryTableName, string primaryColumnName)
+      {
+         return ForeignKey(foreignKeyName, null, primaryTableName, primaryColumnName);
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax NotNullable()
-        {
-            CurrentColumn.IsNullable = false;
-            return this;
-        }
+      public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey(string foreignKeyName, string primaryTableSchema, string primaryTableName, string primaryColumnName)
+      {
+         CurrentColumn.IsForeignKey = true;
 
-        public ICreateTableColumnOptionOrWithColumnSyntax Unique()
-        {
-            return Unique(null);
-        }
-
-        public ICreateTableColumnOptionOrWithColumnSyntax Unique(string indexName)
-        {
-            CurrentColumn.IsUnique = true;
-
-            var index = new CreateIndexExpression
+         var fk = new CreateForeignKeyExpression
+         {
+            ForeignKey = new ForeignKeyDefinition
             {
-                Index = new IndexDefinition
-                {
-                    Name = indexName,
-                    SchemaName = Expression.SchemaName,
-                    TableName = Expression.TableName,
-                    IsUnique = true
-                }
-            };
+               Name = foreignKeyName,
+               PrimaryTable = primaryTableName,
+               PrimaryTableSchema = primaryTableSchema,
+               ForeignTable = Expression.TableName,
+               ForeignTableSchema = Expression.SchemaName
+            }
+         };
 
-            index.Index.Columns.Add(new IndexColumnDefinition
+         fk.ForeignKey.PrimaryColumns.Add(primaryColumnName);
+         fk.ForeignKey.ForeignColumns.Add(CurrentColumn.Name);
+
+         _context.Expressions.Add(fk);
+         return this;
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax ReferencedBy(string foreignTableName, string foreignColumnName)
+      {
+         return ReferencedBy(null, null, foreignTableName, foreignColumnName);
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax ReferencedBy(string foreignKeyName, string foreignTableName, string foreignColumnName)
+      {
+         return ReferencedBy(foreignKeyName, null, foreignTableName, foreignColumnName);
+      }
+
+      public ICreateTableColumnOptionOrWithColumnSyntax ReferencedBy(string foreignKeyName, string foreignTableSchema, string foreignTableName, string foreignColumnName)
+      {
+         var fk = new CreateForeignKeyExpression
+         {
+            ForeignKey = new ForeignKeyDefinition
             {
-                Name = CurrentColumn.Name
-            });
+               Name = foreignKeyName,
+               PrimaryTable = Expression.TableName,
+               PrimaryTableSchema = Expression.SchemaName,
+               ForeignTable = foreignTableName,
+               ForeignTableSchema = foreignTableSchema
+            }
+         };
 
-            _context.Expressions.Add(index);
+         fk.ForeignKey.PrimaryColumns.Add(CurrentColumn.Name);
+         fk.ForeignKey.ForeignColumns.Add(foreignColumnName);
 
-            return this;
-        }
+         _context.Expressions.Add(fk);
+         return this;
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey(string primaryTableName, string primaryColumnName)
-        {
-            return ForeignKey(null, null, primaryTableName, primaryColumnName);
-        }
+      [Obsolete("Use ForeignKey(string,string)")]
+      public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey()
+      {
+         CurrentColumn.IsForeignKey = true;
+         return this;
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey(string foreignKeyName, string primaryTableName, string primaryColumnName)
-        {
-            return ForeignKey(foreignKeyName, null, primaryTableName, primaryColumnName);
-        }
+      [Obsolete("Use ReferencedBy")]
+      public ICreateTableColumnOptionOrWithColumnSyntax References(string foreignKeyName, string foreignTableName, IEnumerable<string> foreignColumnNames)
+      {
+         return References(foreignKeyName, null, foreignTableName, foreignColumnNames);
+      }
 
-        public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey(string foreignKeyName, string primaryTableSchema, string primaryTableName, string primaryColumnName)
-        {
-            CurrentColumn.IsForeignKey = true;
-
-            var fk = new CreateForeignKeyExpression
+      [Obsolete("Use ReferencedBy")]
+      public ICreateTableColumnOptionOrWithColumnSyntax References(string foreignKeyName, string foreignTableSchema, string foreignTableName, IEnumerable<string> foreignColumnNames)
+      {
+         var fk = new CreateForeignKeyExpression
+         {
+            ForeignKey = new ForeignKeyDefinition
             {
-                ForeignKey = new ForeignKeyDefinition
-                {
-                    Name = foreignKeyName,
-                    PrimaryTable = primaryTableName,
-                    PrimaryTableSchema = primaryTableSchema,
-                    ForeignTable = Expression.TableName,
-                    ForeignTableSchema = Expression.SchemaName
-                }
-            };
+               Name = foreignKeyName,
+               PrimaryTable = Expression.TableName,
+               PrimaryTableSchema = Expression.SchemaName,
+               ForeignTable = foreignTableName,
+               ForeignTableSchema = foreignTableSchema
+            }
+         };
 
-            fk.ForeignKey.PrimaryColumns.Add(primaryColumnName);
-            fk.ForeignKey.ForeignColumns.Add(CurrentColumn.Name);
-
-            _context.Expressions.Add(fk);
-            return this;
-        }
-
-        public ICreateTableColumnOptionOrWithColumnSyntax ReferencedBy(string foreignTableName, string foreignColumnName)
-        {
-            return ReferencedBy(null, null, foreignTableName, foreignColumnName);
-        }
-
-        public ICreateTableColumnOptionOrWithColumnSyntax ReferencedBy(string foreignKeyName, string foreignTableName, string foreignColumnName)
-        {
-            return ReferencedBy(foreignKeyName, null, foreignTableName, foreignColumnName);
-        }
-
-        public ICreateTableColumnOptionOrWithColumnSyntax ReferencedBy(string foreignKeyName, string foreignTableSchema, string foreignTableName, string foreignColumnName)
-        {
-            var fk = new CreateForeignKeyExpression
-            {
-                ForeignKey = new ForeignKeyDefinition
-                {
-                    Name = foreignKeyName,
-                    PrimaryTable = Expression.TableName,
-                    PrimaryTableSchema = Expression.SchemaName,
-                    ForeignTable = foreignTableName,
-                    ForeignTableSchema = foreignTableSchema
-                }
-            };
-
-            fk.ForeignKey.PrimaryColumns.Add(CurrentColumn.Name);
+         fk.ForeignKey.PrimaryColumns.Add(CurrentColumn.Name);
+         foreach (var foreignColumnName in foreignColumnNames)
             fk.ForeignKey.ForeignColumns.Add(foreignColumnName);
 
-            _context.Expressions.Add(fk);
-            return this;
-        }
+         _context.Expressions.Add(fk);
+         return this;
+      }
 
-        [Obsolete("Use ForeignKey(string,string)")]
-        public ICreateTableColumnOptionOrWithColumnSyntax ForeignKey()
-        {
-            CurrentColumn.IsForeignKey = true;
-            return this;
-        }
+      protected override ColumnDefinition GetColumnForType()
+      {
+         return CurrentColumn;
+      }
 
-        [Obsolete("Use ReferencedBy")]
-        public ICreateTableColumnOptionOrWithColumnSyntax References(string foreignKeyName, string foreignTableName, IEnumerable<string> foreignColumnNames)
-        {
-            return References(foreignKeyName, null, foreignTableName, foreignColumnNames);
-        }
+      public ICreateTableFederationSyntax FederatedOn(string name)
+      {
+         Expression.Federation.Name = name;
+         return this;
+      }
 
-        [Obsolete("Use ReferencedBy")]
-        public ICreateTableColumnOptionOrWithColumnSyntax References(string foreignKeyName, string foreignTableSchema, string foreignTableName, IEnumerable<string> foreignColumnNames)
-        {
-            var fk = new CreateForeignKeyExpression
-            {
-                ForeignKey = new ForeignKeyDefinition
-                {
-                    Name = foreignKeyName,
-                    PrimaryTable = Expression.TableName,
-                    PrimaryTableSchema = Expression.SchemaName,
-                    ForeignTable = foreignTableName,
-                    ForeignTableSchema = foreignTableSchema
-                }
-            };
+      public ICreateTableFederationSyntax Column(string columnName)
+      {
+         Expression.FederationColumn = columnName;
+         return this;
+      }
 
-            fk.ForeignKey.PrimaryColumns.Add(CurrentColumn.Name);
-            foreach (var foreignColumnName in foreignColumnNames)
-                fk.ForeignKey.ForeignColumns.Add(foreignColumnName);
-
-            _context.Expressions.Add(fk);
-            return this;
-        }
-
-        protected override ColumnDefinition GetColumnForType()
-        {
-            return CurrentColumn;
-        }
-
-        public ICreateTableFederationSyntax FederatedOn(string distributionName)
-        {
-            Expression.FederationDistribution = distributionName;
-            return this;
-        }
-
-        public ICreateTableWithColumnSyntax Column (string columnName)
-        {
-            Expression.FederationColumn = columnName;
-            return this;
-        }
-    }
+      public ICreateTableFederationSyntax DistributionName(string distributionName)
+      {
+         Expression.Federation.DistributionName = distributionName;
+         return this;
+      }
+   }
 }

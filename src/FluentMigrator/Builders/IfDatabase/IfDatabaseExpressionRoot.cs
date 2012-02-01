@@ -116,6 +116,11 @@ namespace FluentMigrator.Builders.IfDatabase
             get { return new UpdateExpressionRoot(_context); }
         }
 
+        public IUseExpressionRoot Use
+        {
+           get { return new UseExpressionRoot(_context); }
+        }
+
         /// <summary>
         /// Checks if the database type matches the name of the context migration processor
         /// </summary>

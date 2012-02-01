@@ -96,7 +96,8 @@ namespace FluentMigrator.Runner.Initialization
             var processor = processorFactory.Create(manager.ConnectionString, RunnerContext.Announcer, new ProcessorOptions
             {
                 PreviewOnly = RunnerContext.PreviewOnly,
-                Timeout = RunnerContext.Timeout
+                Timeout = RunnerContext.Timeout,
+                TransactionPerMigration = RunnerContext.TransactionPerMigration
             });
 
             return processor;

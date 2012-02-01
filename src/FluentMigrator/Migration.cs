@@ -38,5 +38,10 @@ namespace FluentMigrator
         {
             get { return new UpdateExpressionRoot(_context); }
         }
+
+        public IUseExpressionRoot Use
+        {
+           get { return new UseExpressionRoot(_context); }
+        }
     }
 }

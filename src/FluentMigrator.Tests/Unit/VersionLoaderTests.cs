@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Reflection;
 using FluentMigrator.Expressions;
@@ -19,6 +20,11 @@ namespace FluentMigrator.Tests.Unit
         public int Timeout
         {
             get { return 30; }
+        }
+
+        public bool TransactionPerMigration
+        {
+            get { return false; }
         }
     }
 

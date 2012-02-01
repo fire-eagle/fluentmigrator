@@ -26,12 +26,13 @@ namespace FluentMigrator.Expressions
     {
         public virtual string SchemaName { get; set; }
         public virtual string TableName { get; set; }
-        public virtual string FederationDistribution { get; set; }
+        public virtual FederationDefinition Federation { get; set; }
         public virtual string FederationColumn { get; set; }
         public virtual IList<ColumnDefinition> Columns { get; set; }
 
         public CreateTableExpression()
         {
+           Federation = new FederationDefinition();
             Columns = new List<ColumnDefinition>();
         }
 
@@ -46,7 +47,7 @@ namespace FluentMigrator.Expressions
             if (string.IsNullOrEmpty(TableName))
                 errors.Add(String.Format("The {0} does not have a valid table name", GetType().Name));
 
-            if (string.IsNullOrEmpty(FederationDistribution) ^ string.IsNullOrEmpty(FederationColumn))
+            if (string.IsNullOrEmpty(Federation.DistributionName) ^ string.IsNullOrEmpty(FederationColumn) ^ string.IsNullOrEmpty (Federation.Name))
                 errors.Add (String.Format ("Required information is missing for data federation."));
 
             foreach (var column in Columns)

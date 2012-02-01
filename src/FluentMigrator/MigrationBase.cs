@@ -18,10 +18,12 @@
 
 using FluentMigrator.Builders.Alter;
 using FluentMigrator.Builders.Create;
+using FluentMigrator.Builders.ForEach;
 using FluentMigrator.Builders.IfDatabase;
 using FluentMigrator.Builders.Insert;
 using FluentMigrator.Builders.Rename;
 using FluentMigrator.Builders.Schema;
+using FluentMigrator.Builders.Update;
 using FluentMigrator.Infrastructure;
 
 namespace FluentMigrator
@@ -88,6 +90,16 @@ namespace FluentMigrator
         public ISchemaExpressionRoot Schema
         {
             get { return new SchemaExpressionRoot(_context); }
+        }
+
+        public IUseExpressionRoot Use
+        {
+           get { return new UseExpressionRoot(_context); }
+        }
+
+        public IForEachExpressionRoot ForEach
+        {
+           get { return new ForEachExpressionRoot(_context); }
         }
 
         public IIfDatabaseExpressionRoot IfDatabase(params string[] databaseType)

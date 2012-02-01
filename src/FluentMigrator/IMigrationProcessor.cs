@@ -66,5 +66,8 @@ namespace FluentMigrator
 
         void Process(CreateFederationExpression expression);
         void Process(DeleteFederationExpression expression);
+        void Process(UseFederationExpression expression);
+
+        void Process (ForEachFederationExpression expression);
     }
 }

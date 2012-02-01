@@ -379,5 +379,15 @@ namespace FluentMigrator.Runner.Generators.Generic
             throw new NotSupportedException("Currently only Azure databases support data federation.");
         }
 
+        public override string Generate(UseFederationExpression expression)
+        {
+           throw new NotSupportedException("Currently only Azure databases support data federation.");
+        }
+
+        public override string Generate(ForEachFederationExpression expression)
+        {
+           throw new NotSupportedException("Currently only Azure databases support data federation.");
+        }
+
     }
 }

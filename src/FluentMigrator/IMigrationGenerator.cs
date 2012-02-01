@@ -50,5 +50,8 @@ namespace FluentMigrator
 
         string Generate(CreateFederationExpression expression);
         string Generate(DeleteFederationExpression expression);
+        string Generate(UseFederationExpression expression);
+
+        string Generate(ForEachFederationExpression expression);
     }
 }

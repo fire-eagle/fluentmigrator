@@ -45,6 +45,7 @@ namespace FluentMigrator.Console
         public int Timeout;
         public bool ShowHelp;
         public string ConnectionStringConfigPath;
+        public bool TransactionPerMigration;
 
         static void DisplayHelp(OptionSet p)
         {
@@ -169,6 +170,11 @@ namespace FluentMigrator.Console
                         "help|h|?",
                         "Displays this help menu.",
                         v => { ShowHelp = true; }
+                    }, 
+                    {
+                        "transactionpermigration|transaction",
+                        "Runs each migration in it's own transaction",
+                        v => { TransactionPerMigration = true; }
                     }
                 };
 
@@ -269,6 +275,7 @@ namespace FluentMigrator.Console
                 Profile = Profile,
                 Timeout = Timeout,
                 ConnectionStringConfigPath = ConnectionStringConfigPath,
+                TransactionPerMigration = TransactionPerMigration
             };
 
             new TaskExecutor(runnerContext).Execute();

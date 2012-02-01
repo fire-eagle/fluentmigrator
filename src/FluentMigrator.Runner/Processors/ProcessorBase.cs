@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Data;
 
 using FluentMigrator.Builders.Execute;
 using FluentMigrator.Expressions;
@@ -169,6 +170,38 @@ namespace FluentMigrator.Runner.Processors
             Process(Generator.Generate(expression));
         }
 
+        public void Process(UseFederationExpression expression)
+        {
+           Process(Generator.Generate(expression));
+        }
+
+        public void Process(ForEachFederationExpression expression)
+        {
+           UseFederationExpression useRootFederation = new UseFederationExpression {UseRoot = true};
+           Process (useRootFederation);
+
+           DataTable federations = Read(m_forEachFederationSql, expression.Federation).Tables[0];
+
+           foreach (DataRow row in federations.Rows)
+           {
+              string range = row["range_low"].ToString();
+              string distribution = row["distribution_name"].ToString();
+
+              UseFederationExpression useFederationExpression = new UseFederationExpression
+              {
+                 DistributionName = distribution,
+                 Name = expression.Federation,
+                 DistributionValue = range
+              };
+              Process(useFederationExpression);
+
+              foreach (IMigrationExpression innerExpression in  expression.Context.Expressions)
+              {
+                 innerExpression.ExecuteWith (this);
+              }
+           }
+        }
+
         protected abstract void Process(string sql);
 
         public virtual void BeginTransaction()
@@ -192,5 +225,11 @@ namespace FluentMigrator.Runner.Processors
         public abstract bool ColumnExists(string schemaName, string tableName, string columnName);
         public abstract bool ConstraintExists(string schemaName, string tableName, string constraintName);
         public abstract bool IndexExists(string schemaName, string tableName, string indexName);
+
+        private readonly string m_forEachFederationSql = @"SELECT fmd.distribution_name, fmd.range_low 
+                                                         FROM sys.federation_member_distributions fmd 
+                                                            INNER JOIN sys.federations f ON fmd.federation_id = f.federation_id 
+                                                         WHERE f.name = '{0}'";
+
     }
 }

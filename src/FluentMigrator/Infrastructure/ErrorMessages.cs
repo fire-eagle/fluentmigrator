@@ -21,6 +21,7 @@ namespace FluentMigrator.Infrastructure
 {
     public static class ErrorMessages
     {
+        public const string ForEachContextCannotBeNull = "The context for a for each cannot be null.";
         public const string ColumnNameCannotBeNullOrEmpty = "The column's name cannot be null or an empty string";
         public const string ColumnTypeMustBeDefined = "The column does not have a type defined";
         public const string SchemaNameCannotBeNullOrEmpty = "The schema's name cannot be null or an empty string";
