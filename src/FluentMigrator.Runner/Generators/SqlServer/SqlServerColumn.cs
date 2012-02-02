@@ -36,6 +36,8 @@ namespace FluentMigrator.Runner.Generators.SqlServer
                     return "NEWID()";
                 case SystemMethods.CurrentDateTime:
                     return "GETDATE()";
+                case SystemMethods.SysDateTimeOffset:
+                    return "SYSDATETIMEOFFSET()";
             }
 
             return null;

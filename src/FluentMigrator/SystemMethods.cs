@@ -4,6 +4,7 @@ namespace FluentMigrator
     public enum SystemMethods
     {
         NewGuid,
-        CurrentDateTime
+        CurrentDateTime,
+        SysDateTimeOffset
     }
 }
