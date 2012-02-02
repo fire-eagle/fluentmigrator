@@ -24,5 +24,7 @@ namespace FluentMigrator.Runner.Generators.SqlServer
             : base(new SqlServerColumn(new SqlServer2008TypeMap()))
         {
         }
+
+        public override string CreateSchema { get { return "\nGO\nCREATE SCHEMA {0}\nGO\n"; } }
     }
 }

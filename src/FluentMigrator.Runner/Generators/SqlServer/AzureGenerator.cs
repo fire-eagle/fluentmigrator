@@ -26,12 +26,12 @@ namespace FluentMigrator.Runner.Generators.SqlServer
       public override string Generate(CreateFederationExpression expression)
       {
          //"The CREATE FEDERATION statement must be the only statement in the batch" - MSDN docs
-         return string.Format("CREATE FEDERATION {0}", expression.FederationDefinition.ToString());
+         return Wrap(string.Format("CREATE FEDERATION {0}", expression.FederationDefinition.ToString()));
       }
 
       public override string Generate(DeleteFederationExpression expression)
       {
-         return string.Format("DROP FEDERATION {0}", expression.Name);
+         return Wrap(string.Format("DROP FEDERATION {0}", expression.Name));
       }
 
       public override string Generate(CreateTableExpression expression)
