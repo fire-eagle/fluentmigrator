@@ -20,7 +20,7 @@ namespace FluentMigrator.Runner.Initialization
         public string Profile { get; set; }
         public int Timeout { get; set; }
         public string ConnectionStringConfigPath { get; set; }
-        public bool TransactionPerMigration { get; set; }
+        public bool NoTransactions { get; set; }
 
         public IAnnouncer Announcer
         {

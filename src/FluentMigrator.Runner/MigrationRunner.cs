@@ -73,7 +73,7 @@ namespace FluentMigrator.Runner
 
         public void MigrateUp()
         {
-            MigrateUp(!Processor.Options.TransactionPerMigration);
+           MigrateUp (!Processor.Options.NoTransactions);
         }
 
         public void MigrateUp(bool useAutomaticTransactionManagement)
@@ -99,7 +99,7 @@ namespace FluentMigrator.Runner
 
         public void MigrateUp(long targetVersion)
         {
-            MigrateUp(targetVersion, !Processor.Options.TransactionPerMigration);
+            MigrateUp(targetVersion, !Processor.Options.NoTransactions);
         }
 
         public void MigrateUp(long targetVersion, bool useAutomaticTransactionManagement)
@@ -138,7 +138,7 @@ namespace FluentMigrator.Runner
 
         public void MigrateDown(long targetVersion)
         {
-            MigrateDown(targetVersion, true);
+           MigrateDown (targetVersion, !Processor.Options.NoTransactions);
         }
 
         public void MigrateDown(long targetVersion, bool useAutomaticTransactionManagement)

@@ -22,7 +22,7 @@ namespace FluentMigrator.Tests.Unit
             get { return 30; }
         }
 
-        public bool TransactionPerMigration
+        public bool NoTransactions
         {
             get { return false; }
         }

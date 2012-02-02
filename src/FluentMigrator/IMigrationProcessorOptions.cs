@@ -4,6 +4,6 @@
     {
         bool PreviewOnly { get; }
         int Timeout { get; }
-        bool TransactionPerMigration { get; }
+        bool NoTransactions { get; }
     }
 }

@@ -97,7 +97,7 @@ namespace FluentMigrator.Runner.Initialization
             {
                 PreviewOnly = RunnerContext.PreviewOnly,
                 Timeout = RunnerContext.Timeout,
-                TransactionPerMigration = RunnerContext.TransactionPerMigration
+                NoTransactions = RunnerContext.NoTransactions
             });
 
             return processor;

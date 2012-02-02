@@ -4,6 +4,6 @@
     {
         public bool PreviewOnly { get; set; }
         public int Timeout { get; set; }
-        public bool TransactionPerMigration { get; set; }
+        public bool NoTransactions { get; set; }
     }
 }
