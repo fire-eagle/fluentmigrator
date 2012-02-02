@@ -16,6 +16,7 @@
 //
 #endregion
 
+using FluentMigrator.Builders.IfDatabase;
 using FluentMigrator.Infrastructure;
 
 namespace FluentMigrator.Builders.Create.Table
@@ -24,5 +25,7 @@ namespace FluentMigrator.Builders.Create.Table
     {
         ICreateTableColumnAsTypeSyntax WithColumn(string name);
         ICreateTableFederationSyntax FederatedOn (string name);
+
+        IIfDatabaseExpressionRoot IfDatabase (string[] dbTypes);
     }
 }

@@ -17,11 +17,14 @@
 //
 #endregion
 
+using System;
+using System.Linq.Expressions;
 
 using FluentMigrator.Builders.Alter;
 using FluentMigrator.Builders.Create;
 using FluentMigrator.Builders.Delete;
 using FluentMigrator.Builders.Execute;
+using FluentMigrator.Builders.ForEach;
 using FluentMigrator.Builders.Insert;
 using FluentMigrator.Builders.Rename;
 using FluentMigrator.Builders.Schema;
@@ -49,5 +52,11 @@ namespace FluentMigrator.Builders.IfDatabase
         ISchemaExpressionRoot Schema { get; }
 
         IUpdateExpressionRoot Update { get; }
+
+        IForEachExpressionRoot ForEach { get; }
+
+        IUseExpressionRoot Use { get; }
+
+        void Then (Action action);
     }
 }

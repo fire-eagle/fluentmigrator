@@ -1,5 +1,6 @@
 using FluentMigrator.Builders.Alter;
 using FluentMigrator.Builders.Create;
+using FluentMigrator.Builders.Execute;
 using FluentMigrator.Builders.IfDatabase;
 using FluentMigrator.Builders.Insert;
 using FluentMigrator.Builders.Rename;
@@ -16,6 +17,7 @@ namespace FluentMigrator.Builders.ForEach
       IInsertExpressionRoot Insert { get; }
       ISchemaExpressionRoot Schema { get; }
       IUseExpressionRoot Use { get; }
+      IExecuteExpressionRoot Execute { get; }
       IIfDatabaseExpressionRoot IfDatabase(params string[] databaseType);
    }
 }

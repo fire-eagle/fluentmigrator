@@ -18,6 +18,8 @@
 
 using System;
 using System.Collections.Generic;
+
+using FluentMigrator.Builders.IfDatabase;
 using FluentMigrator.Expressions;
 using FluentMigrator.Infrastructure;
 using FluentMigrator.Model;
@@ -264,6 +266,11 @@ namespace FluentMigrator.Builders.Create.Table
       {
          Expression.Federation.Name = name;
          return this;
+      }
+
+      public IIfDatabaseExpressionRoot IfDatabase (string[] dbTypes)
+      {
+         return new IfDatabaseExpressionRoot (_context, dbTypes);
       }
 
       public ICreateTableFederationSyntax Column(string columnName)

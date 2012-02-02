@@ -19,10 +19,13 @@
 
 using System;
 using System.Linq;
+using System.Linq.Expressions;
+
 using FluentMigrator.Builders.Alter;
 using FluentMigrator.Builders.Create;
 using FluentMigrator.Builders.Delete;
 using FluentMigrator.Builders.Execute;
+using FluentMigrator.Builders.ForEach;
 using FluentMigrator.Builders.Insert;
 using FluentMigrator.Builders.Rename;
 using FluentMigrator.Builders.Schema;
@@ -42,7 +45,10 @@ namespace FluentMigrator.Builders.IfDatabase
         /// <remarks>If the database type doe snot apply then this will be a new context that is not used by the caller</remarks>
         private readonly IMigrationContext _context;
 
-        /// <summary>
+        private IMigrationContext _origContext;
+        private string[] _databaseType;
+
+       /// <summary>
         /// Constricts a new instance of a <see cref="IfDatabaseExpressionRoot"/> that will only add expressions to the provided <see cref="context"/> if <see cref="databaseType"/> matches the migration processor
         /// </summary>
         /// <remarks>If the database type does not apply then a <seealso cref="NullIfDatabaseProcessor"/> will be used as a container to void any fluent expressions that would have been executed</remarks>
@@ -51,7 +57,8 @@ namespace FluentMigrator.Builders.IfDatabase
         public IfDatabaseExpressionRoot(IMigrationContext context, params string[] databaseType)
         {
             if (databaseType == null) throw new ArgumentNullException("databaseType");
-
+            _origContext = context;
+            _databaseType = databaseType;
             _context = DatabaseTypeApplies(context, databaseType) ? context : new MigrationContext(new MigrationConventions(), new NullIfDatabaseProcessor(), context.MigrationAssembly, context.ApplicationContext);
         }
 
@@ -120,6 +127,17 @@ namespace FluentMigrator.Builders.IfDatabase
         {
            get { return new UseExpressionRoot(_context); }
         }
+
+       public IForEachExpressionRoot ForEach
+       {
+          get { return new ForEachExpressionRoot (_context); }
+       }
+
+       public void Then(Action lambda)
+       {
+          if (DatabaseTypeApplies (_origContext, _databaseType))
+            lambda.Invoke();
+       }
 
         /// <summary>
         /// Checks if the database type matches the name of the context migration processor
